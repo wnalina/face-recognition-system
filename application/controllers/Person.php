@@ -157,6 +157,7 @@ class Person extends CI_Controller
 //            print_r($founds[0]);
             for($j = 0; $j < count($founds[$i]); $j++)
             {
+
 //                print_r($founds[$i][$j]);
                 $len = count($founds[$i][$j]['found_list']);
                 $len = $len - 1;
@@ -174,6 +175,7 @@ class Person extends CI_Controller
                 $person_id = $founds[$i][$j]['person_id'];
                 $person  = $this->person_model->get_person($group_id, $person_id);
                 $founds[$i][$j]['person_name'] = $person['person_name'];
+                $founds[$i][$j]['person_img'] = $person['person_img'];
 
 //
             }
@@ -253,6 +255,7 @@ class Person extends CI_Controller
             $data['group_name'] = $group['group_name'];
             $person = $this->person_model->get_person($group_id, $person_id);
             $data['person_name'] = $person['person_name'];
+            $data['person_img'] = $person['person_img'];
             $this->load->view('header_profile');
             $this->load->view('show_trackperson', $data);
             $this->load->view('footer');

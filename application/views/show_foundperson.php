@@ -55,7 +55,7 @@
                     <!--                    --><?php //$group_id = $group['group_id']?>
                     <tr >
                         <th scope="row"></th>
-                        <td style="padding-left: 60px;"><a </a><img src="<?=base_url('public/upload/thumbnail/').'1_thumbnail_4.jpg'?>">&nbsp;&nbsp;<?= $founds[$i][$j]['person_name']?></td>
+                        <td style="padding-left: 60px;"><a </a><img src="<?=base_url('public/upload/thumbnail/'.$founds[$i][$j]['person_img'])?>">&nbsp;&nbsp;<?= $founds[$i][$j]['person_name']?></td>
 <!--                        --><?php //print_r($cameras[$i])?>
 <!--                        --><?php //if(isset($cameras[$i]['cam_name'])) { ?>
 <!--                            <td>--><?//=$cameras[$i]['cam_name']?><!--</td>-->

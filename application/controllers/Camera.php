@@ -19,6 +19,26 @@ class Camera extends CI_Controller
             redirect('main');
     }
 
+    public function stream($cam_id, $cam_name)
+    {
+        $this->check_login();
+        $this->camera_model->update_enable_stream($cam_id);
+
+        $data['cam_id'] = $cam_id;
+        $data['cam_name'] = $cam_name;
+        $this->load->view('header_profile');
+        $this->load->view('stream', $data);
+        $this->load->view('footer');
+    }
+
+    public function disable_stream($cam_id)
+    {
+        $this->check_login();
+
+        $this->camera_model->update_disable_stream($cam_id);
+        redirect('camera/show_camera', 'refresh');
+    }
+
     public function show_camera()
     {
         $this->check_login();

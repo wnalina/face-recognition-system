@@ -92,6 +92,21 @@ class Camera_model extends CI_Model
             return NULL;
     }
 
+    public function update_enable_stream($cam_id)
+    {
+        $this->mongo_db->set(['stream'=> 'stream'])->where('cam_id', $cam_id);
+        $this->mongo_db->update('camera', [
+            'upsert' => TRUE
+        ]);
+    }
+
+    public function update_disable_stream($cam_id)
+    {
+        $this->mongo_db->set(['stream'=> 'none'])->where('cam_id', $cam_id);
+        $this->mongo_db->update('camera', [
+            'upsert' => TRUE
+        ]);
+    }
     public function update_camera($cam_id, $data){
 //        $data = $this->mongo_db->get_where("camera", ['cam_id' => $cam_id]);
 //        $this->mongo_db->update('camera', $data, array('cam_id'=>$cam_id));

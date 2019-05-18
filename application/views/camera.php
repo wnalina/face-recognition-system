@@ -65,7 +65,7 @@
                         <th scope="col">Status</th>
                         <th scope="col">Location</th>
                         <th scope="col">Group Name</th>
-                        <th colspan=""></th>
+                        <th colspan="2"></th>
                     </tr>
                     </thead>
                     <?php $i = 0; ?>
@@ -79,11 +79,15 @@
                             <td><?= $camera['status']?></td>
                             <td><?= $camera['location']?></td>
                             <td><?= $camera['group_name']?></td>
-                            <?php $cam_id = $camera['cam_id']; ?>
+                            <?php $cam_id = $camera['cam_id']; $cam_name = $camera['cam_name'];?>
 <!--                            <td><a href="--><?//= base_url("profile/update_camera/$cam_id") ?><!--">Update</a></td>-->
 <!--                            <td><a href="--><?//= base_url("camera/update_camera/$cam_id") ?><!--">Update</a></td>-->
 <!--                            <td><a href="--><?//= base_url("camera/delete_camera/$cam_id") ?><!--" onclick="return confirm('Are you sure?')">Delete</a></td>-->
-                            <td class="nav-item dropdown ">
+
+                            <td class="nav-item dropdown row">
+
+                                <button class="btn btn-primary btn-l js-scroll-trigger" onclick="window.location.href = '<?=base_url("camera/stream/$cam_id/$cam_name")?>';">Stream</button>
+
                                 <!--                                <li class="nav-item dropdown">-->
                                 <a class="nav-link far fa-edit" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -96,6 +100,7 @@
                                     <a class="dropdown-item" href="<?= base_url("camera/update_camera/$cam_id") ?>">update</a>
                                     <a class="dropdown-item" href="<?= base_url("camera/delete_camera/$cam_id") ?>" onclick="return confirm('Are you sure?')">delete</a>
                                 </div>
+
                                 <!--                                </li>-->
                             </td>
                         </tr>

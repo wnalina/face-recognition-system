@@ -22,6 +22,24 @@
          * @return Response
          */
 
+        public function stream_post()
+        {
+            $uploaddir = "public/stream/";
+            $file_name = underscore($_FILES['file']['name']);
+            $uploadfile = $uploaddir . $file_name;
+
+
+            move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+            $data = array(
+                array(
+                    "uploaddir" => $uploaddir,
+                    "error" => $_FILES['file']['error'],
+                    "size" => $_FILES['file']['size'],
+                )
+            );
+            $this->response($data, 200);
+        }
+
 
         public function status_get()
         {
@@ -34,8 +52,10 @@
             $key_sn = $this->get('key_sn');
             $group_id = $this->get('group_id');
             $person_sn = $this->get('person_sn');
+//            $stream = $this->get('stream');
+            $location = $this->get('location');
 //            $azure = NULL;
-            if ($cam_id === NULL || $key_sn === NULL || $group_id === NULL || $person_sn === NULL)
+            if ($cam_id === NULL || $key_sn === NULL || $group_id === NULL || $person_sn === NULL || $location == NULL)
             {
                 $this->response('Not complete', REST_Controller::HTTP_OK);
             }
@@ -47,6 +67,7 @@
                     if (isset($value['cam_id']) && $value['cam_id'] === $cam_id)
                     {
                         $status['status'] = $value['status'];
+                        $status['stream'] = $value['stream'];
 //                        $status['key_sn'] = $value['key_sn'];
                         $key_azure_data = $this->api_model->get_key_azure($value['key_sn']);
 
@@ -74,6 +95,16 @@
                             }
 
                         }
+
+//                        if($value['stream'] != 'none')
+//                        {
+//                            $status['stream'] = $value['stream'];
+//                        }
+
+                        if($value['location'] != 'none')
+                        {
+                            $status['location'] = $value['location'];
+                        }
 //                        if($value['person_sn'] != 0)
 //                        {
 //                            $status['person_sn'] = $value['person_sn'];
@@ -95,6 +126,7 @@
                     if (isset($value['cam_id']) && $value['cam_id'] === $cam_id)
                     {
                         $status['status'] = $value['status'];
+                        $status['stream'] = $value['stream'];
 
                         if($value['group_id'] != 'none')
                         {
@@ -121,7 +153,6 @@
                             }
                         }
 
-
                         if($key_sn != $value['key_sn'])
                         {
                             $status['key_sn'] = $value['key_sn'];
@@ -138,6 +169,18 @@
 //                                    $status['key'] = $azure['key'];
 //                                }
 //                            }
+                        }
+
+//                        if($value['stream'] != 'none')
+//                        {
+//                            if($stream != $value['stream'])
+//                                $status['stream'] = $value['stream'];
+//                        }
+
+                        if($value['location'] != 'none')
+                        {
+                            if($location != $value['location'])
+                                $status['location'] = $value['location'];
                         }
                     }
                 }
@@ -231,6 +274,7 @@
                 'status' => 'enable',
                 'location' => 'none',
                 'group_id' => 'none',
+                'stream' => 'none',
                 'key_sn' => '2');
 
             if($this->api_model->insert_camera($data)){

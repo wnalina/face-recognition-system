@@ -134,3 +134,8 @@ body {
     padding: 0.25rem 1.0rem !important;
     /*min-width: 10rem !important;*/
 }
+
+.stream{
+    margin: 60px  auto 0 auto;
+    max-width: 100vh;
+}

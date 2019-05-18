@@ -324,6 +324,7 @@ class Person_model extends CI_Model
 //                $person = $this->mongo_db->where('group_id', $group_id)->get('person_group_person');
                 $persons = $this->mongo_db->getOneWhere('person_group_person', ['group_id' => $group_id]);
                 $persons = $persons[0]['person_list'];
+
                 foreach ($persons as $person)
                 {
                     if($person['person_id'] == $person_id)
@@ -338,7 +339,7 @@ class Person_model extends CI_Model
                             $this->mongo_db->update('person_group', [
                                 'upsert' => TRUE
                             ]);
-                            return  $this->mongo_db
+                            $this->mongo_db
                                 ->pull('person_list', $person)
                                 ->where('group_id', $group_id)
                                 ->update('person_group_person');
@@ -349,6 +350,15 @@ class Person_model extends CI_Model
                     }
 //                        print_r($person);
                 }
+                $found_list = $this->get_found_person($group_id, $person_id);
+                $data['person_id'] = $person_id;
+                $data['group_id'] = $group_id;
+                $data['found_list'] = $found_list;
+                if($this->mongo_db->insert('found_person_old', $data))
+                {
+                    return $this->mongo_db->where(['group_id' => $group_id, 'person_id' => $person_id])->delete('found_person');
+                }
+
 //                $this->mongo_db->insert('person_group_person_old',$person[0]);
 //        $this->mongo_db->set(['status'=> 'deactivate'])->where('person_id', $person_id);
 

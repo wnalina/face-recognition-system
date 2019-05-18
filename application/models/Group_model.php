@@ -131,6 +131,18 @@ class Group_model extends CI_Model
                     'upsert' => TRUE
                 ]);
 
+                $cameras = $this->mongo_db->select(['cam_id'])->where('group_id', $group_id)->get('camera');
+                if(isset($cameras))
+                {
+                    foreach ($cameras as $camera)
+                    {
+                        $this->mongo_db->set(['group_id'=> 'none'])->where('cam_id', $camera['cam_id']);
+                        $this->mongo_db->update('camera', [
+                            'upsert' => TRUE
+                        ]);
+                    }
+                }
+
                 return $this->mongo_db->where('group_id', $group_id)->delete('person_group');
             }
 //            echo $response->getBody();

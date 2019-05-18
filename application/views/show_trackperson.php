@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h1 class="h2  font-weight-bold">Track Person</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
-                <a class="btn  js-scroll-trigger sign_in_botton" href="<?=base_url("person/add_person/")?>">Add Person</a>
+<!--                <a class="btn  js-scroll-trigger sign_in_botton" href="--><?//=base_url("person/add_person/")?><!--">Add Person</a>-->
 
             </div>
 

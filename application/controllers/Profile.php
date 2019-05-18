@@ -55,8 +55,9 @@ class Profile extends CI_Controller {
         $submit_data['firstname'] = $this->input->post('firstname', TRUE);
         $submit_data['lastname'] = $this->input->post('lastname', TRUE);
         $submit_data['email'] = $this->input->post('email', TRUE);
-        $submit_data['password'] = $this->input->post('password', TRUE);
-        $submit_data['confirm_password'] = $this->input->post('confirm_password', TRUE);
+//        $hashed_password = password_hash($_POST["password"],PASSWORD_DEFAULT);
+        $submit_data['password'] = password_hash($this->input->post('password', TRUE), PASSWORD_DEFAULT);
+//        $submit_data['confirm_password'] = $this->input->post('confirm_password', TRUE);
 
 
         if ($this->form_validation->run() == FALSE) {

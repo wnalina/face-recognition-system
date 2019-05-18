@@ -45,7 +45,7 @@ class Profile_model extends CI_Model
 //        $query = $this->mongo_db->get('user');
 //        print_r($query) ;
         $hash = $data['password'];
-        if($password == $hash){
+        if(password_verify($password, $hash)){
             $user_id  = $data['user_id'];
             return $user_id;
         }

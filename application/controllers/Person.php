@@ -348,12 +348,7 @@ class Person extends CI_Controller
                             $tmp_img = $tmp_img.$add_img.', ';
                             $error = $res_add['msg'];
 
-//                            $this->session->set_flashdata('notify_message', $_FILES["person_img"]["name"][$i].': '.$res_add['msg'].' Please select another image.');
-//
-//                            redirect("person/show_person/$group_id", 'refresh');
                         }
-//                        if($this->person_model->add_face($person_id, $group_id, $add_img))
-//                            $this->delete_img($add_img);
                     }
 
 
@@ -481,7 +476,7 @@ class Person extends CI_Controller
 
             $this->person_model->train($group_id);
             if($tmp_img == ""){
-                $this->session->set_flashdata('notify_message', $res_add['result']);
+//                $this->session->set_flashdata('notify_message', $res_add['result']);
             }
             else
             {

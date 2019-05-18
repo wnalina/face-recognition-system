@@ -13,6 +13,15 @@
             </div>
 
         </div>
+        <div>
+            <?php if(isset($_SESSION['notify_message'])) {?>
+                <?='<script language="javascript">';?>
+                <?='alert("'.$_SESSION['notify_message'].'")';?>
+                <?='</script>';?>
+<!--                <strong>--><?//= $_SESSION['notify_message']; ?><!--</strong>-->
+            <?php } ?>
+        </div>
+
         <?php if(isset($persons)) { ?>
             <table class="table table-hover" style="margin-top: 40px" id="camera">
                 <thead>
@@ -20,7 +29,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Photo</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Id</th>
+<!--                    <th scope="col">Id</th>-->
                     <th scope="col">Number of face added</th>
 <!--                    <th scope="col">Status</th>-->
                     <th scope="col"></th>
@@ -41,7 +50,7 @@
                         <th scope="row"><?= $i ?></th>
                         <td><img src="<?=base_url('public/upload/thumbnail/').$person['person_img']?>"></td>
                         <td><a href="<?= base_url("person/add_face/$person_id/$group_id") ?>" </a><?= $person['person_name']?></td>
-                        <td><?= $person['person_id']?></td>
+<!--                        <td>--><?//= $person['person_id']?><!--</td>-->
                         <td><?= $person['count_img']?></td>
                         <td class="nav-item dropdown ">
                             <!--                                <li class="nav-item dropdown">-->

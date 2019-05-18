@@ -189,7 +189,15 @@ class Person_model extends CI_Model
 
         try
         {
-            if($request->send())
+            $response = $request->send();
+            $response = $response->getBody();
+            $res_add = json_decode($response, true);
+            if(isset($res_add['error'])){
+                $error['result'] = 'error';
+                $error['msg'] = $res_add['error']['message'];
+                return $error;
+            }
+            else
             {
                 $persons = $this->mongo_db->getOneWhere('person_group_person', ['group_id' => $group_id]);
                 $persons = $persons[0]['person_list'];
@@ -203,7 +211,11 @@ class Person_model extends CI_Model
                         $count = $count + 1;
                         $person['count_img'] = $count;
 
-                        return $this->mongo_db->push('person_list', $person)->where('group_id', $group_id)->update('person_group_person');
+                        $this->mongo_db->push('person_list', $person)->where('group_id', $group_id)->update('person_group_person');
+
+                        $error['result'] = 'success';
+                        $error['msg'] = $res_add['persistedFaceId'];
+                        return $error;
 
 //                        $this->mongo_db->insert('person_group_person_old',$person);
                     }
@@ -226,7 +238,7 @@ class Person_model extends CI_Model
         }
         catch (HttpException $ex)
         {
-            echo $ex;
+            return $ex;
         }
 
     }

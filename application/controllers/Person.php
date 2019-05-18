@@ -202,10 +202,15 @@ class Person extends CI_Controller
 
         $groups = $this->group_model->get_all_group();
         $persons = [];
+        $person_name = [];
         $data['groups'] = $groups;
         foreach ($groups as $group)
         {
             $person = $this->person_model->get_all_person($group['group_id']);
+            foreach ($person as $value)
+            {
+//                array_push($person_name, $value)
+            }
             array_push($persons, $person);
         }
         $data['persons'] = $persons;
@@ -221,6 +226,8 @@ class Person extends CI_Controller
         {
             $group_id = $this->input->post('group_id', TRUE);
             $person_id = $this->input->post('person_id', TRUE);
+
+            $data['group_id'] = $group_id;
 
             $found = $this->person_model->get_found_person($group_id, $person_id);
 
@@ -260,6 +267,7 @@ class Person extends CI_Controller
     {
         $this->check_login();
 
+
         $data['persons'] = $this->person_model->get_all_person($group_id);
         $data['group_id'] = $group_id;
         $this->load->view('header_profile');
@@ -275,6 +283,9 @@ class Person extends CI_Controller
         $this->form_validation->set_rules('person_name', 'PersonName', 'required');
 
         $submit_data['person_name'] = $this->input->post('person_name', TRUE);
+
+        $tmp_img = "";
+        $error = NULL;
 
 
         if ($this->form_validation->run() == FALSE) {
@@ -327,8 +338,22 @@ class Person extends CI_Controller
                     if ($person_id)
                     {
                         $add_img = $_FILES["person_img"]["name"][$i];
-                        if($this->person_model->add_face($person_id, $group_id, $add_img))
+                        $res_add = $this->person_model->add_face($person_id, $group_id, $add_img);
+                        if($res_add['result'] == 'success')
+                        {
                             $this->delete_img($add_img);
+                        }
+                        else
+                        {
+                            $tmp_img = $tmp_img.$add_img.', ';
+                            $error = $res_add['msg'];
+
+//                            $this->session->set_flashdata('notify_message', $_FILES["person_img"]["name"][$i].': '.$res_add['msg'].' Please select another image.');
+//
+//                            redirect("person/show_person/$group_id", 'refresh');
+                        }
+//                        if($this->person_model->add_face($person_id, $group_id, $add_img))
+//                            $this->delete_img($add_img);
                     }
 
 
@@ -345,6 +370,13 @@ class Person extends CI_Controller
 //            } else {
 //                $this->session->set_flashdata('notify_message', 'Oh! There is a problem.');
 //            }
+            if($tmp_img == ""){
+//                $this->session->set_flashdata('notify_message', $res_add['result']);
+            }
+            else
+            {
+                $this->session->set_flashdata('notify_message', $tmp_img.': '.$error.' Please select another image.');
+            }
             // Load view
             redirect("person/show_person/$group_id", 'refresh');
 
@@ -364,10 +396,14 @@ class Person extends CI_Controller
 
         $this->form_validation->set_rules('person_name', 'PersonName', 'required');
 
+        $tmp_img = "";
+        $error = NULL;
+
 //        $submit_data['person_img'] = $this->input->post('person_img', TRUE);
 
 
         if ($this->form_validation->run() == FALSE) {
+
 
 //            $data['groups'] = $this->group_model->get_all_group();
             $person = $this->person_model->get_person($group_id, $person_id);
@@ -412,8 +448,21 @@ class Person extends CI_Controller
 //                    }
 
                     $add_img = $_FILES["person_img"]["name"][$i];
-                    if($this->person_model->add_face($person_id, $group_id, $add_img))
+                    $res_add = $this->person_model->add_face($person_id, $group_id, $add_img);
+                    if($res_add['result'] == 'success')
+                    {
                         $this->delete_img($add_img);
+                    }
+                    else
+                    {
+
+                        $tmp_img = $tmp_img.$add_img.', ';
+                        $error = $res_add['msg'];
+                    }
+//                    $res_add = json_encode($res_add);
+//                    print_r($res_add['error']) ;
+//                    if($this->person_model->add_face($person_id, $group_id, $add_img))
+//                        $this->delete_img($add_img);
 
 
 //                    if ($person_id)
@@ -431,6 +480,13 @@ class Person extends CI_Controller
             }
 
             $this->person_model->train($group_id);
+            if($tmp_img == ""){
+                $this->session->set_flashdata('notify_message', $res_add['result']);
+            }
+            else
+            {
+                $this->session->set_flashdata('notify_message', $tmp_img.': '.$error.' Please select another image.');
+            }
             // Load view
             redirect("person/show_person/$group_id", 'refresh');
         }
@@ -566,7 +622,7 @@ class Person extends CI_Controller
 //        $group_sn = $data['group_sn'];
         if($this->person_model->delete_person($person_id, $group_id))
         {
-            $_SESSION['notify_message'] = 'Delete post successfully';
+//            $_SESSION['notify_message'] = 'Delete post successfully';
         }
         else
         {

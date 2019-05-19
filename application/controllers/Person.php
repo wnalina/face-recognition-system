@@ -371,6 +371,7 @@ class Person extends CI_Controller
                         {
                             $tmp_img = $tmp_img.$add_img.', ';
                             $error = $res_add['msg'];
+                            $this->delete_img($add_img);
 
                         }
                     }
@@ -432,6 +433,7 @@ class Person extends CI_Controller
 
                     $tmp_img = $tmp_img.$add_img.', ';
                     $error = $res_add['msg'];
+                    $this->delete_img($add_img);
                 }
             }
 

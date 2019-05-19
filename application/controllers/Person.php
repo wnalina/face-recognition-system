@@ -312,35 +312,56 @@ class Person extends CI_Controller
 
             if (! empty($_FILES['person_img']['name']))
             {
+                $dir_img = 'public/upload/';
                 $photosCount = count($_FILES['person_img']['name']);
                 for ($i = 0; $i < $photosCount; $i ++)
                 {
-                    copy($_FILES["person_img"]["tmp_name"][$i],"public/upload/".$_FILES["person_img"]["name"][$i]);
+                    $source_img = $_FILES["person_img"]["tmp_name"][$i];
+                    $des_img = $user_id.'_'.$group_id.'_'.$submit_data['person_name'].'_'.$_FILES["person_img"]["name"][$i];
+                    $des_upload = $dir_img.$des_img;
+                    copy($source_img,$des_upload);
 
                     if($i == 0)
                     {
                         $submit_data['person_img'] = $user_id.'_'.$group_id.'_'.$submit_data['person_name'].'_'."thumbnail_".$_FILES["person_img"]["name"][$i];
-                        $images = $_FILES["person_img"]["tmp_name"][$i];
                         $new_images = $user_id.'_'.$group_id.'_'.$submit_data['person_name'].'_'."thumbnail_".$_FILES["person_img"]["name"][$i];
-                        $width=100; //*** Fix Width & Heigh (Autu caculate) ***//
-                        $size=GetimageSize($images);
-                        $height=round($width*$size[1]/$size[0]);
-                        $images_orig = ImageCreateFromJPEG($images);
-                        $photoX = ImagesX($images_orig);
-                        $photoY = ImagesY($images_orig);
-                        $images_fin = ImageCreateTrueColor($width, $height);
-                        if(ImageCopyResampled($images_fin, $images_orig, 0, 0, 0, 0, $width+1, $height+1, $photoX, $photoY))
 
-                        if(ImageJPEG($images_fin,"public/upload/thumbnail/".$new_images))
-                        ImageDestroy($images_orig);
-                        ImageDestroy($images_fin);
+                        $im1 = imagecreatefromstring(file_get_contents($source_img));
+                        $exif = exif_read_data($source_img);
+                        if(!empty($exif['Orientation'])) {
+                            switch($exif['Orientation']) {
+                                case 8:
+                                    $im1 = imagerotate($im1,90,0);
+                                    break;
+                                case 3:
+                                    $im1 = imagerotate($im1,180,0);
+                                    break;
+                                case 6:
+                                    $im1 = imagerotate($im1,-90,0);
+                                    break;
+                            }
+                        }
+
+                        $w2=ImageSx($im1);
+                        $h2=ImageSy($im1);
+                        $w1 = 100;
+
+                        $h1=floor($h2*($w1/$w2));
+                        $im2=imagecreatetruecolor($w1,$h1);
+
+                        imagecopyresampled ($im2,$im1,0,0,0,0,$w1,$h1,$w2,$h2);
+                        if(ImageJPEG($im2,"public/upload/thumbnail/".$new_images))
+                        {
+                            ImageDestroy($im1);
+                            ImageDestroy($im2);
+                        }
 
                         $person_id = $this->person_model->insert_person($submit_data, $group_id);
                     }
 
                     if ($person_id)
                     {
-                        $add_img = $_FILES["person_img"]["name"][$i];
+                        $add_img = $des_img;
                         $res_add = $this->person_model->add_face($person_id, $group_id, $add_img);
                         if($res_add['result'] == 'success')
                         {
@@ -353,21 +374,9 @@ class Person extends CI_Controller
 
                         }
                     }
-
-
-
-
                 }
-
                 $this->person_model->train($group_id);
-
             }
-
-//            if ($this->person_model->insert_person($submit_data)) {
-//                $this->session->set_flashdata('notify_message', 'Add new post successfully.');
-//            } else {
-//                $this->session->set_flashdata('notify_message', 'Oh! There is a problem.');
-//            }
             if($tmp_img == ""){
 //                $this->session->set_flashdata('notify_message', $res_add['result']);
             }
@@ -375,11 +384,8 @@ class Person extends CI_Controller
             {
                 $this->session->set_flashdata('notify_message', $tmp_img.': '.$error.' Please select another image.');
             }
-            // Load view
+//            // Load view
             redirect("person/show_person/$group_id", 'refresh');
-
-
-
         }
     }
 
@@ -392,90 +398,43 @@ class Person extends CI_Controller
     {
         $this->check_login();
 
-        $this->form_validation->set_rules('person_name', 'PersonName', 'required');
-
         $tmp_img = "";
         $error = NULL;
 
-//        $submit_data['person_img'] = $this->input->post('person_img', TRUE);
+        $person = $this->person_model->get_person($group_id, $person_id);
+        $data['person_id'] = $person['person_id'];
+        $data['person_name'] = $person['person_name'];
+        $data['group_id'] = $group_id;
 
-
-        if ($this->form_validation->run() == FALSE) {
-
-
-//            $data['groups'] = $this->group_model->get_all_group();
-            $person = $this->person_model->get_person($group_id, $person_id);
-            $data['person_id'] = $person['person_id'];
-            $data['person_name'] = $person['person_name'];
-            $data['group_id'] = $group_id;
-//            print_r($data) ;
-
+        if (empty($_FILES['person_img']['name']) )
+        {
             $this->load->view('header_profile');
             $this->load->view('add_face', $data);
             $this->load->view('footer');
         }
-        else {
+        else
+        {
             $submit_data['person_name'] = $this->input->post('person_name', TRUE);
-//            $submit_data['group_id'] = $this->input->post('group_id', TRUE);
-
-            if (! empty($_FILES['person_img']['name']))
+            $photosCount = count($_FILES['person_img']['name']);
+            for ($i = 0; $i < $photosCount; $i ++)
             {
-                $photosCount = count($_FILES['person_img']['name']);
-                for ($i = 0; $i < $photosCount; $i ++)
+                $des_img = $group_id.'_'.$data['person_name'].'_'.$_FILES["person_img"]["name"][$i];
+
+                copy($_FILES["person_img"]["tmp_name"][$i],"public/upload/".$des_img);
+                $add_img = $des_img;
+                $res_add = $this->person_model->add_face($person_id, $group_id, $add_img);
+                if($res_add['result'] == 'success')
                 {
-                    copy($_FILES["person_img"]["tmp_name"][$i],"public/upload/".$_FILES["person_img"]["name"][$i]);
-
-//                    if($i == 0)
-//                    {
-//                        $submit_data['person_img'] = $submit_data['person_name'].'_'."thumbnail_".$_FILES["person_img"]["name"][$i];
-//                        $images = $_FILES["person_img"]["tmp_name"][$i];
-//                        $new_images = $submit_data['person_name'].'_'."thumbnail_".$_FILES["person_img"]["name"][$i];
-//                        $width=100; //*** Fix Width & Heigh (Autu caculate) ***//
-//                        $size=GetimageSize($images);
-//                        $height=round($width*$size[1]/$size[0]);
-//                        $images_orig = ImageCreateFromJPEG($images);
-//                        $photoX = ImagesX($images_orig);
-//                        $photoY = ImagesY($images_orig);
-//                        $images_fin = ImageCreateTrueColor($width, $height);
-//                        if(ImageCopyResampled($images_fin, $images_orig, 0, 0, 0, 0, $width+1, $height+1, $photoX, $photoY))
-//                            if(ImageJPEG($images_fin,"public/upload/thumbnail/".$new_images))
-//                                ImageDestroy($images_orig);
-//                        ImageDestroy($images_fin);
-//
-//                        $person_id = $this->person_model->insert_person($submit_data, $group_id);
-//                    }
-
-                    $add_img = $_FILES["person_img"]["name"][$i];
-                    $res_add = $this->person_model->add_face($person_id, $group_id, $add_img);
-                    if($res_add['result'] == 'success')
-                    {
-                        $this->delete_img($add_img);
-                    }
-                    else
-                    {
-
-                        $tmp_img = $tmp_img.$add_img.', ';
-                        $error = $res_add['msg'];
-                    }
-//                    $res_add = json_encode($res_add);
-//                    print_r($res_add['error']) ;
-//                    if($this->person_model->add_face($person_id, $group_id, $add_img))
-//                        $this->delete_img($add_img);
-
-
-//                    if ($person_id)
-//                    {
-//                        $add_img = $_FILES["person_img"]["name"][$i];
-//                        if($this->person_model->add_face($person_id, $group_id, $add_img))
-//                            $this->delete_img($add_img);
-//                    }
-
-
-
-
+                    $this->delete_img($add_img);
                 }
+                else
+                {
 
+                    $tmp_img = $tmp_img.$add_img.', ';
+                    $error = $res_add['msg'];
+                }
             }
+
 
             $this->person_model->train($group_id);
             if($tmp_img == ""){
@@ -488,8 +447,6 @@ class Person extends CI_Controller
             // Load view
             redirect("person/show_person/$group_id", 'refresh');
         }
-        $add_img = '';
-//        $this->person_model->add_face($person_id, $group_id, $add_img);
     }
 
     public function test_add_face()

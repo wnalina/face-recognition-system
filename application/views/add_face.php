@@ -26,7 +26,7 @@
             <!--            </div>-->
             <div class="form-group">
                 <label for="text-white">Person Name</label>
-                <input type="text" class="form-control" id="person_name" placeholder="Person Name" name="person_name" value="<?=$person_name?>" required pattern="[a-zA-Z0-9\S+]{0-20}" >
+                <input type="text" class="form-control" id="person_name" placeholder="Person Name" name="person_name" disabled value="<?=$person_name?>" >
                 <!--                <small  class="form-text">You can use letters, number and whitespace.</small>-->
 
             </div>
@@ -55,6 +55,7 @@
                 <label class="custom-file-label" for="customFile">Choose file</label>
                 <!--                <input type="file" class="custom-file-input" id="person_img" name="person_img" multiple>-->
                 <input type="file" class="custom-file-input"name="person_img[]" id="person_img" multiple="multiple" required >
+                <small  class="form-text">max size is 6MB.</small>
                 <!--                <input type="file" class="custom-file-input" name="person_img[]" id="person_img" accept="image/jpg, image/jpeg" multiple>-->
                 <!--                <input type="file" class="custom-file-input" name="file[]" id="file" accept="image/jpg, image/jpeg" multiple><br><br>-->
 

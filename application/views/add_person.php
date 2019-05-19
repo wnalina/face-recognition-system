@@ -18,54 +18,17 @@
         <?= form_open_multipart("person/add_person/$group_id", 'class="sing_in_form col-md-6 mb-3"'); ?>
 
         <form enctype="multipart/form-data">
-            <!--            <div class="form-row">-->
-<!--            <div class="mb-3">-->
-<!--                <label for="validationTooltip01"></label>-->
-<!--                <input type="text" class="form-control" id="person_name" name="person_name" placeholder="Person Name" required>-->
-<!---->
-<!--            </div>-->
             <div class="form-group">
                 <label for="text-white"></label>
                 <input type="text" class="form-control" id="person_name" placeholder="Person Name" name="person_name" required >
-<!--                <small  class="form-text">You can use letters, number and whitespace.</small>-->
+<!--                <small  class="form-text">You can use letters, number and whitespace        .</small>-->
 
             </div>
-
-<!--            <div class="mb-3">-->
-<!--                <label for="validationTooltip02"></label>-->
-<!--                <input type="text" class="form-control" id="validationTooltip02" placeholder="Group Id" required>-->
-<!--                <div class="valid-tooltip">-->
-<!--                    Looks good!-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="custom-file">-->
-<!--                <input type="file" class="custom-file-input" id="customFile">-->
-<!--                <label class="custom-file-label" for="customFile">Choose file</label>-->
-<!--            </div>-->
-
-<!--            <div class="custom-file mb-3" style="margin-top: 1rem">-->
-<!--                <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>-->
-<!--                <input type="file" class="custom-file-input" id="person_img" name="person_img" required>-->
-<!---->
-<!--                <div class="invalid-feedback">Example invalid custom file feedback</div>-->
-<!--            </div>-->
-
             <div class="custom-file mb-3" style="margin-top: 1rem">
                 <label class="custom-file-label" for="customFile">Choose file</label>
-<!--                <input type="file" class="custom-file-input" id="person_img" name="person_img" multiple>-->
                 <input type="file" class="custom-file-input"name="person_img[]" id="person_img" multiple="multiple" accept="image/jpg, image/jpeg" required >
-<!--                <input type="file" class="custom-file-input" name="person_img[]" id="person_img" accept="image/jpg, image/jpeg" multiple>-->
-<!--                <input type="file" class="custom-file-input" name="file[]" id="file" accept="image/jpg, image/jpeg" multiple><br><br>-->
-
+                <small  class="form-text">max size is 6MB.</small>
             </div>
-<!--            <input type="file" name="file[]" id="file" accept="image/jpg, image/jpeg" multiple><br><br>-->
-
-<!--            <div class="custom-file mb-3" style="margin-top: 1rem">-->
-<!--                <input type="file" name="img" multiple>-->
-<!--            </div>-->
-
-            <!--            </div>-->
             <div class="submit_botton">
                 <button class="btn btn-primary btn-xl js-scroll-trigger" type="submit">Submit</button>
             </div>
@@ -76,10 +39,26 @@
         <?= form_close(); ?>
 
 
-
     </main>
     <!-- pageContent END -->
 </div>
+
+<script>
+    $(function(){
+        $('form').submit(function(){
+            var isOk = true;
+            $('input[type=file][data-max-size]').each(function(){
+                if(typeof this.files[0] !== 'undefined'){
+                    var maxSize = parseInt($(this).attr('max-size'),10),
+                        size = this.files[0].size;
+                    isOk = maxSize > size;
+                    return isOk;
+                }
+            });
+            return isOk;
+        });
+    });
+</script>
 <!-- Main Col END -->
 </div>
 <!-- body-row END -->

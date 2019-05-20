@@ -64,7 +64,8 @@
         <div class="collapse navbar-collapse nav-bar" id="navbarResponsive">
             <ul class="navbar-nav ml-auto my-2 my-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger text-white" href="<?=base_url('profile/logout')?>">log out</a>
+                    <?php $email = $this->session->email; ?>
+                    <a class="nav-link js-scroll-trigger text-white" ><?=$email?></a>
                 </li>
 <!--                <li class="nav-item">-->
 <!--                    <a class="nav-link js-scroll-trigger text-white" href="#services">Sign up</a>-->
@@ -114,21 +115,21 @@
                     <!-- Bootstrap List Group -->
                     <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed main-menu"><small>MAIN MENU</small></li>
                     <a href="#submenu1" data-tooltip="true" data-placement="top" title="" data-hassubmenu="true" data-toggle="collapse" aria-expanded="false" class="bg-mac list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-start align-items-center"><span class="fas fa-tachometer-alt fa-fw mr-3"></span><span class="menu-collapsed">Manage</span><span class="fa fa-caret-down ml-auto"></span></div>
+                        <div class="d-flex w-100 justify-content-start align-items-center"><span class="fas fa-cog fa-fw mr-3"></span><span class="menu-collapsed">Manage</span><span class="fa fa-caret-down ml-auto"></span></div>
                     </a>
                     <div id="submenu1" class="collapse sidebar-submenu">
                         <a href="<?=base_url('camera/show_camera')?>" data-tooltip="true" data-placement="top" title="" class="bg-mac list-group-item list-group-item-action"><span class="menu-collapsed">camera</span></a>
                         <a href="<?=base_url('group/show_all_group')?>" data-tooltip="true" data-placement="top" title="" class="bg-mac list-group-item list-group-item-action"><span class="menu-collapsed">group</span></a>
                     </div>
                     <a href="#submenu2" data-tooltip="true" data-placement="top" title="" data-hassubmenu="true" data-toggle="collapse" aria-expanded="false" class="bg-mac list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-start align-items-center"><span class="fas fa-tachometer-alt fa-fw mr-3"></span><span class="menu-collapsed">Utility</span><span class="fa fa-caret-down ml-auto"></span></div>
+                        <div class="d-flex w-100 justify-content-start align-items-center"><span class="fas fa-users fa-fw mr-3"></span><span class="menu-collapsed">Utility</span><span class="fa fa-caret-down ml-auto"></span></div>
                     </a>
                     <div id="submenu2" class="collapse sidebar-submenu">
                         <a href="<?=base_url('person/found_person')?>" data-tooltip="true" data-placement="top" title="" class="bg-mac list-group-item list-group-item-action"><span class="menu-collapsed">found person</span></a>
                         <a href="<?=base_url('person/track_person')?>" data-tooltip="true" data-placement="top" title="" class="bg-mac list-group-item list-group-item-action"><span class="menu-collapsed">track person</span></a>
                     </div>
-                    <a href="#submenu3" data-tooltip="true" data-placement="top" title="" data-hassubmenu="true" data-toggle="collapse" aria-expanded="false" class="bg-mac list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-start align-items-center"><span class="far fa-edit fa-fw mr-3"></span><span class="menu-collapsed">Edit Profile</span><span class=" ml-auto"></span></div>
+                    <a href="<?=base_url('profile/logout')?>" data-tooltip="true" data-placement="top" title="" aria-expanded="false" class="bg-mac list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-start align-items-center"><span class="fas fa-sign-out-alt fa-fw mr-3"></span><span class="menu-collapsed">Sign out</span><span class=" ml-auto"></span></div>
                     </a>
 <!--                    <div id="submenu2" class="collapse sidebar-submenu">-->
 <!--                        <a href="newProject.php" data-tooltip="true" data-placement="top" title="Creat new project" class="bg-mac list-group-item list-group-item-action"><span class="menu-collapsed">new Project</span></a>-->

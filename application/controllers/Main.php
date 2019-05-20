@@ -11,14 +11,14 @@ class Main extends CI_Controller {
     public function index()
     {
         $this->load->view('header');
-        $this->load->view('home');
+//        $this->load->view('home');
         $this->load->view('footer');
     }
 
     public function test()
     {
-        $this->load->view('header');
-        $this->load->view('testapi');
-        $this->load->view('footer');
+        $this->load->view('test_login');
+//        $this->load->view('testapi');
+//        $this->load->view('footer');
     }
 }

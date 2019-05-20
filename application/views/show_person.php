@@ -48,7 +48,7 @@
 <!--                    --><?php //$group_id = $group['group_id']?>
                     <tr >
                         <th scope="row"><?= $i ?></th>
-                        <td><img src="<?=base_url('public/upload/thumbnail/').$person['person_img']?>"></td>
+                        <td><img class="img-fit" src="<?=base_url('public/upload/thumbnail/').$person['person_img']?>"></td>
                         <td><a href="<?= base_url("person/add_face/$person_id/$group_id") ?>" </a><?= $person['person_name']?></td>
 <!--                        <td>--><?//= $person['person_id']?><!--</td>-->
                         <td><?= $person['count_img']?></td>

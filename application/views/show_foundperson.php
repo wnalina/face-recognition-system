@@ -55,7 +55,7 @@
                     <!--                    --><?php //$group_id = $group['group_id']?>
                     <tr >
                         <th scope="row"></th>
-                        <td style="padding-left: 60px;"><a </a><img src="<?=base_url('public/upload/thumbnail/'.$founds[$i][$j]['person_img'])?>">&nbsp;&nbsp;<?= $founds[$i][$j]['person_name']?></td>
+                        <td style="padding-left: 60px;"><img class="img-fit" src="<?=base_url('public/upload/thumbnail/'.$founds[$i][$j]['person_img'])?>">&nbsp;&nbsp;<?= $founds[$i][$j]['person_name']?></td>
 <!--                        --><?php //print_r($cameras[$i])?>
 <!--                        --><?php //if(isset($cameras[$i]['cam_name'])) { ?>
 <!--                            <td>--><?//=$cameras[$i]['cam_name']?><!--</td>-->
@@ -70,7 +70,13 @@
                             <td><?= $founds[$i][$j]['found_list'][$len]['cam_name']?></td>
                             <td><?= $founds[$i][$j]['found_list'][$len]['location']?></td>
                             <td><?= $founds[$i][$j]['found_list'][$len]['timestamp']?></td>
-                            <td><?=  $founds[$i][$j]['found_list'][$len]['confidence']?></td>
+                            <?php if ($founds[$i][$j]['found_list'][$len]['confidence'] < 0.60) { ?>
+                                <td style="color: #00ff00">Low</td>
+                            <?php } elseif ($founds[$i][$j]['found_list'][$len]['confidence'] < 0.80) { ?>
+                                <td style="color: #ffcc00">Medium</td>
+                            <?php } else { ?>
+                                <td style="color: #ff0000">High</td>
+                            <?php } ?>
 
                         <?php } else { ?>
                             <td><?='-'?></td>

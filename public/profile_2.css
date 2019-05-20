@@ -139,3 +139,10 @@ body {
     margin: 60px  auto 0 auto;
     max-width: 100vh;
 }
+
+.img-fit{
+    object-fit: cover;
+
+    width: 12vh;
+    height: 12vh;
+}

@@ -344,7 +344,7 @@ class Person extends CI_Controller
 
                         $w2=ImageSx($im1);
                         $h2=ImageSy($im1);
-                        $w1 = 100;
+                        $w1 = 500;
 
                         $h1=floor($h2*($w1/$w2));
                         $im2=imagecreatetruecolor($w1,$h1);

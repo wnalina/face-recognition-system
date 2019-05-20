@@ -48,7 +48,7 @@
 <!--                    --><?php //$group_id = $group['group_id']?>
                     <tr >
                         <th scope="row"><?= $i ?></th>
-                        <td><img class="img-fit" src="<?=base_url('public/upload/thumbnail/').$person['person_img']?>"></td>
+                        <td><img class="img-fit rounded" src="<?=base_url('public/upload/thumbnail/').$person['person_img']?>"></td>
                         <td><a href="<?= base_url("person/add_face/$person_id/$group_id") ?>" </a><?= $person['person_name']?></td>
 <!--                        <td>--><?//= $person['person_id']?><!--</td>-->
                         <td><?= $person['count_img']?></td>
@@ -59,7 +59,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                <a class="dropdown-item" href="<?= base_url("person/delete_person/$person_id/$group_id") ?>">delete</a>
+                                <a class="dropdown-item" href="<?= base_url("person/delete_person/$person_id/$group_id") ?>"  onclick="return confirm('Are you sure?')">delete</a>
                                 <a class="dropdown-item" href="<?= base_url("person/add_face/$person_id/$group_id") ?>">add face</a>
 <!--                                <a class="dropdown-item" href="#group">delete person</a>-->
 <!--                                <div class="dropdown-divider"></div>-->

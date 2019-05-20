@@ -21,7 +21,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Group</th>
+                    <th colspan="1">Group</th>
 <!--                    <th scope="col">Person Id</th>-->
                     <th scope="col">Camera</th>
                     <th scope="col">Location</th>
@@ -37,8 +37,8 @@
                 <?php for($i=0; $i < count($groups); $i++): ?>
                 <tr>
                     <?php $n = $i+1; ?>
-                    <th scope="row"><?= $n ?></th>
-                    <td><?=$groups[$i]['group_name']?></td>
+                    <th scope="row" style="background-color:#0047b3; color: white"><?= $n ?></th>
+                    <th colspan="6" style="background-color: #0047b3; color: white"><?=$groups[$i]['group_name']?></th>
                 </tr>
                 </thead>
 <!--                --><?php //$i = 0; ?>
@@ -55,7 +55,8 @@
                     <!--                    --><?php //$group_id = $group['group_id']?>
                     <tr >
                         <th scope="row"></th>
-                        <td style="padding-left: 60px;"><img class="img-fit" src="<?=base_url('public/upload/thumbnail/'.$founds[$i][$j]['person_img'])?>">&nbsp;&nbsp;<?= $founds[$i][$j]['person_name']?></td>
+<!--                        <td >--><?//= $founds[$i][$j]['person_name']?><!--</td>-->
+                        <td style="padding-left: 60px;"><img class="img-fit rounded" src="<?=base_url('public/upload/thumbnail/'.$founds[$i][$j]['person_img'])?>">&nbsp;&nbsp;<?= $founds[$i][$j]['person_name']?></td>
 <!--                        --><?php //print_r($cameras[$i])?>
 <!--                        --><?php //if(isset($cameras[$i]['cam_name'])) { ?>
 <!--                            <td>--><?//=$cameras[$i]['cam_name']?><!--</td>-->

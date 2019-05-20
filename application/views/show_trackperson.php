@@ -54,7 +54,7 @@
             <?php if($founds != 'none') { ?>
 <!--                <div class="row" style="margin-top: 60px;">-->
 <!--                    <img style="margin: 60px auto 20px auto; display: block;" src="--><?//=base_url('public/upload/thumbnail/'.$person_img)?><!--">-->
-                    <h2 style="margin-top: 60px; color: #f4623a"><?= 'Track: '.$person_name.' in Group: '.$group_name?></h2>
+                    <h2 style="margin-top: 60px; color: #0047b3"><?= 'Track: '.$person_name.' in Group: '.$group_name?></h2>
 <!--                </div>-->
 
                 <table class="table table-hover" style="margin-top: 40px" id="camera">

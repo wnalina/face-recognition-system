@@ -78,7 +78,15 @@
                             <td><?= $founds[$i]['timestamp']?></td>
                             <td><?= $founds[$i]['location']?></td>
                             <td><?= $founds[$i]['cam_name']?></td>
-                            <td><?=  $founds[$i]['confidence']?></td>
+
+                            <?php if ($founds[$i]['confidence'] < 0.60) { ?>
+                                <td style="color: #ff0000">Low</td>
+                            <?php } elseif ($founds[$i]['confidence'] < 0.80) { ?>
+                                <td style="color: #ffcc00">Medium</td>
+                            <?php } else { ?>
+                                <td style="color: #00cc00">High</td>
+                            <?php } ?>
+
                         </tr>
 
                         </tbody>

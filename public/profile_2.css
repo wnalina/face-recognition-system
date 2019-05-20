@@ -56,7 +56,7 @@ body {
 }
 
 #sidebar-container .list-group .sidebar-submenu a {
-    padding-left: 2rem !important;
+    padding-left: 4rem !important;
     color: rgba(255, 255, 255, .5);
 }
 

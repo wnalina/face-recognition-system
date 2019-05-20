@@ -71,11 +71,11 @@
                             <td><?= $founds[$i][$j]['found_list'][$len]['location']?></td>
                             <td><?= $founds[$i][$j]['found_list'][$len]['timestamp']?></td>
                             <?php if ($founds[$i][$j]['found_list'][$len]['confidence'] < 0.60) { ?>
-                                <td style="color: #00ff00">Low</td>
+                                <td style="color: #ff0000">Low</td>
                             <?php } elseif ($founds[$i][$j]['found_list'][$len]['confidence'] < 0.80) { ?>
                                 <td style="color: #ffcc00">Medium</td>
                             <?php } else { ?>
-                                <td style="color: #ff0000">High</td>
+                                <td style="color: #00cc00">High</td>
                             <?php } ?>
 
                         <?php } else { ?>

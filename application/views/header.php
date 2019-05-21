@@ -108,11 +108,12 @@
                         </div>
                         <div class="group">
                             <label for="validationTipPassword" class="label"></label>
-                            <input id="password" name="password" type="password" class="input" data-type="password" placeholder="Password">
+                            <input id="password_signup" name="password_signup" type="password" class="input" data-type="password" placeholder="Password">
                         </div>
                         <div class="group">
                             <label for="validationTipPassword" class="label"></label>
                             <input id="confirm_password" name="confirm_password" type="password" class="input" data-type="password" required placeholder="Repeat Password">
+                            <p style="font-size: 0.80rem; text-align: start !important;" id='message'></p>
                         </div>
 
                         <div class="group submit_botton"  >

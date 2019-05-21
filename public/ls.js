@@ -90,3 +90,9 @@ jQuery(document).ready(function($){
     });
 });
 
+$('#password_signup, #confirm_password').on('keyup', function () {
+    if ($('#password_signup').val() == $('#confirm_password').val()) {
+        $('#message').html('password matching').css('color', 'green');
+    } else
+        $('#message').html('password not matching').css('color', 'red');
+});

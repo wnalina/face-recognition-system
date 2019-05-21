@@ -17,6 +17,16 @@ class Api_model extends CI_Model
         return $data;
     }
 
+    public function get_camera($cam_id)
+    {
+        $email = $this->session->email;
+        $data = $this->mongo_db->where(['cam_id' => $cam_id, 'owner' => $email])->get('camera');
+        if(isset($data[0]))
+            return $data[0];
+        else
+            return NULL;
+    }
+
     public function get_key_azure($key_sn)
     {
         $data = $this->mongo_db->where('key_sn', $key_sn)->get("key_azure");

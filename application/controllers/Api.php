@@ -47,6 +47,8 @@
             $camera_data =$this->api_model->get_all_camera();
 
 
+
+
 //            $cam_id = $this->get('cam_id');
             $cam_id = $this->get('cam_id');
             $key_sn = $this->get('key_sn');
@@ -54,6 +56,7 @@
             $person_sn = $this->get('person_sn');
 //            $stream = $this->get('stream');
             $location = $this->get('location');
+
 //            $azure = NULL;
             if ($cam_id === NULL || $key_sn === NULL || $group_id === NULL || $person_sn === NULL || $location == NULL)
             {
@@ -62,132 +65,112 @@
 
             else if ($key_sn == 'none')
             {
-                foreach ($camera_data as $key => $value)
+                $camera_data = $this->api_model->get_camera($cam_id);
+                if($camera_data != NULL)
                 {
-                    if (isset($value['cam_id']) && $value['cam_id'] === $cam_id)
-                    {
-                        $status['status'] = $value['status'];
-                        $status['stream'] = $value['stream'];
+                    $status['status'] = $camera_data['status'];
+                    $status['stream'] = $camera_data['stream'];
 //                        $status['key_sn'] = $value['key_sn'];
-                        $key_azure_data = $this->api_model->get_key_azure($value['key_sn']);
+                    $key_azure_data = $this->api_model->get_key_azure($camera_data['key_sn']);
 
-                        $status['key_sn'] = $key_azure_data['key_sn'];
-                        $status['key'] = $key_azure_data['key'];
-//                        foreach ($key_azure_data as $key => $azure)
-//                        {
-////                            if(isset($azure['key_sn']) && $azure['key_sn'] === $value['key_sn'])
-////                            {
-////                                $status['key'] = $azure['key'];
-////                            }
-//                            $status['key_sn'] = $azure['key_sn'];
-//                            $status['key'] = $azure['key'];
+                    $status['key_sn'] = $key_azure_data['key_sn'];
+                    $status['key'] = $key_azure_data['key'];
 //
-//                        }
-                        if ($value['group_id'] != 'none')
+                    if ($camera_data['group_id'] != 'none')
+                    {
+                        $status['group_id'] = $camera_data['group_id'];
+                        $group_data = $this->api_model->get_group($camera_data['group_id']);
+                        $status['person_sn'] = $group_data['person_sn'];
+                        if ($group_data['person_sn'] != 0)
                         {
-                            $status['group_id'] = $value['group_id'];
-                            $group_data = $this->api_model->get_group($value['group_id']);
+                            $person_data = $this->api_model->get_all_person($camera_data['group_id']);
+                            $status['person_list'] = $person_data;
+                        }
+
+                    }
+
+                    if($camera_data['location'] != 'none')
+                    {
+                        $status['location'] = $camera_data['location'];
+                    }
+
+                    $status = json_encode($status, JSON_PRETTY_PRINT);
+
+                    $this->response($status, REST_Controller::HTTP_OK);
+
+                }
+                else
+                {
+                    $status['status'] = 'deactivate';
+                    $status = json_encode($status, JSON_PRETTY_PRINT);
+                    $this->response($status, REST_Controller::HTTP_OK);
+                }
+
+            }
+
+            else
+            {
+                $camera_data = $this->api_model->get_camera($cam_id);
+                if($camera_data != NULL)
+                {
+                    $status['status'] = $camera_data['status'];
+                    $status['stream'] = $camera_data['stream'];
+
+                    if ($camera_data['group_id'] != 'none')
+                    {
+                        $group_data = $this->api_model->get_group($camera_data['group_id']);
+
+                        if($group_id != $camera_data['group_id'])
+                        {
+                            $status['group_id'] = $camera_data['group_id'];
+//                            $group_data = $this->api_model->get_group($value['group_id']);
                             $status['person_sn'] = $group_data['person_sn'];
                             if ($group_data['person_sn'] != 0)
                             {
-                                $person_data = $this->api_model->get_all_person($value['group_id']);
+                                $person_data = $this->api_model->get_all_person($camera_data['group_id']);
                                 $status['person_list'] = $person_data;
                             }
 
                         }
 
-//                        if($value['stream'] != 'none')
-//                        {
-//                            $status['stream'] = $value['stream'];
-//                        }
-
-                        if($value['location'] != 'none')
+                        if($person_sn != $group_data['person_sn'])
                         {
-                            $status['location'] = $value['location'];
+                            $status['person_sn'] = $group_data['person_sn'];
+                            $person_data = $this->api_model->get_all_person($camera_data['group_id']);
+                            $status['person_list'] = $person_data;
                         }
-//                        if($value['person_sn'] != 0)
-//                        {
-//                            $status['person_sn'] = $value['person_sn'];
-//                        }
 
                     }
-                }
-                $status = json_encode($status, JSON_PRETTY_PRINT);
 
-                $this->response($status, REST_Controller::HTTP_OK);
-            }
-
-            else if (!empty($camera_data))
-            {
-
-                foreach ($camera_data as $key => $value)
-                {
-
-                    if (isset($value['cam_id']) && $value['cam_id'] === $cam_id)
+                    if($key_sn != $camera_data['key_sn'])
                     {
-                        $status['status'] = $value['status'];
-                        $status['stream'] = $value['stream'];
+                        $status['key_sn'] = $camera_data['key_sn'];
 
-                        if($value['group_id'] != 'none')
-                        {
-                            $group_data = $this->api_model->get_group($value['group_id']);
+                        $key_azure_data = $this->api_model->get_key_azure($camera_data['key_sn']);
 
-                            if($group_id != $value['group_id'])
-                            {
-                                $status['group_id'] = $value['group_id'];
-//                            $group_data = $this->api_model->get_group($value['group_id']);
-                                $status['person_sn'] = $group_data['person_sn'];
-                                if ($group_data['person_sn'] != 0)
-                                {
-                                    $person_data = $this->api_model->get_all_person($value['group_id']);
-                                    $status['person_list'] = $person_data;
-                                }
-
-                            }
-
-                            if($person_sn != $group_data['person_sn'])
-                            {
-                                $status['person_sn'] = $group_data['person_sn'];
-                                $person_data = $this->api_model->get_all_person($value['group_id']);
-                                $status['person_list'] = $person_data;
-                            }
-                        }
-
-                        if($key_sn != $value['key_sn'])
-                        {
-                            $status['key_sn'] = $value['key_sn'];
-
-                            $key_azure_data = $this->api_model->get_key_azure($value['key_sn']);
-
-                            $status['key_sn'] = $key_azure_data['key_sn'];
-                            $status['key'] = $key_azure_data['key'];
-
-//                            foreach ($key_azure_data as $key => $azure)
-//                            {
-//                                if(isset($azure['key_sn']) && $azure['key_sn'] === $value['key_sn'])
-//                                {
-//                                    $status['key'] = $azure['key'];
-//                                }
-//                            }
-                        }
-
-//                        if($value['stream'] != 'none')
-//                        {
-//                            if($stream != $value['stream'])
-//                                $status['stream'] = $value['stream'];
-//                        }
-
-                        if($value['location'] != 'none')
-                        {
-                            if($location != $value['location'])
-                                $status['location'] = $value['location'];
-                        }
+                        $status['key_sn'] = $key_azure_data['key_sn'];
+                        $status['key'] = $key_azure_data['key'];
                     }
+
+
+                    if($camera_data['location'] != 'none')
+                    {
+                        if($location != $camera_data['location'])
+                            $status['location'] = $camera_data['location'];
+                    }
+
+                    $status = json_encode($status, JSON_PRETTY_PRINT);
+
+                    $this->response($status, REST_Controller::HTTP_OK);
+
                 }
 
-                $status = json_encode($status, JSON_PRETTY_PRINT);
-
-                $this->response($status, REST_Controller::HTTP_OK);
+                else
+                {
+                    $status['status'] = 'deactivate';
+                    $status = json_encode($status, JSON_PRETTY_PRINT);
+                    $this->response($status, REST_Controller::HTTP_OK);
+                }
             }
         }
 

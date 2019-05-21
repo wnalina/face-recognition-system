@@ -79,8 +79,18 @@ class Camera_model extends CI_Model
 
     public function get_camera_name($cam_id)
     {
-        $data = $this->mongo_db->select(['cam_name'])->where('cam_id', $cam_id)->get('camera');
-        return $data[0];
+        $email = $this->session->email;
+        $data = $this->mongo_db->select(['cam_name'])->where(['cam_id'=> $cam_id, 'owner' => $email])->get('camera');
+        if(isset($data[0]))
+            return $data[0];
+        else
+        {
+            $data = $this->mongo_db->select(['cam_name'])->where(['cam_id'=> $cam_id, 'owner' => $email])->get('camera_old');
+            if(isset($data[0]))
+                return $data[0];
+            else
+                return NULL;
+        }
     }
 
     public function get_camera_group_id($group_id)
@@ -131,12 +141,13 @@ class Camera_model extends CI_Model
     public function delete_camera($cam_id){
 //        $this->mongo_db->delete('camera', array('id'=>$id));
 //        return $this->mongo_db->where('cam_id', $cam_is)->delete('camera');
-        $camera = $this->mongo_db->where('cam_id', $cam_id)->get('camera');
+        $email = $this->session->email;
+        $camera = $this->mongo_db->where(['cam_id' => $cam_id, 'owner' => $email])->get('camera');
         $camera = $camera[0];
         $camera['status'] = 'deactivate';
         $this->mongo_db->insert('camera_old',$camera);
 
-        return $this->mongo_db->set(['status'=> 'deactivate'])->where('cam_id', $cam_id)->update('camera');
+        return $this->mongo_db->where(['cam_id' => $cam_id, 'owner' => $email])->delete('camera');
 
     }
 

@@ -167,8 +167,15 @@ class Person extends CI_Controller
 //                    print_r($cam_id);
                     $cameras = $this->camera_model->get_camera_name($cam_id);
 //                    print_r($cameras['cam_name']);
-                    $cam_name =$cameras['cam_name'];
-                    $founds[$i][$j]['found_list'][$len]['cam_name'] = $cam_name;
+                    if($cameras != NULL)
+                    {
+                        $cam_name =$cameras['cam_name'];
+                        $founds[$i][$j]['found_list'][$len]['cam_name'] = $cam_name;
+                    }
+                    else
+                        $founds[$i][$j]['found_list'][$len]['cam_name'] = 'deactivate';
+
+
 //                    print_r($founds[$i][$j]['found_list'][$len]['cam_name']);
                 }
                 $group_id = $founds[$i][$j]['group_id'];
@@ -241,10 +248,13 @@ class Person extends CI_Controller
                     $cam_id = $found[$i]['cam_id'];
 //                    print_r($cam_id);
                     $cameras = $this->camera_model->get_camera_name($cam_id);
-//                    print_r($cameras['cam_name']);
-                    $cam_name =$cameras['cam_name'];
-                    $found[$i]['cam_name'] = $cam_name;
-//                    print_r($founds[$i][$j]['found_list'][$len]['cam_name']);
+                    if($cameras != NULL)
+                    {
+                        $cam_name =$cameras['cam_name'];
+                        $found[$i]['cam_name'] = $cam_name;
+                    }
+                    else
+                        $found[$i]['cam_name'] = 'deactivate';
                 }
             }
 

@@ -19,8 +19,8 @@ class Api_model extends CI_Model
 
     public function get_camera($cam_id)
     {
-        $email = $this->session->email;
-        $data = $this->mongo_db->where(['cam_id' => $cam_id, 'owner' => $email])->get('camera');
+//        $email = $this->session->email;
+        $data = $this->mongo_db->where(['cam_id' => $cam_id])->get('camera');
         if(isset($data[0]))
             return $data[0];
         else

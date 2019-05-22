@@ -8,7 +8,8 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                 <h1 class="h2  font-weight-bold">Group</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <a class="btn  js-scroll-trigger sign_in_botton" href="<?=base_url('group/add_group')?>">Add Group</a>
+<!--                    <a class="btn  js-scroll-trigger sign_in_botton" href="--><?//=base_url('group/add_group')?><!--">Add Group</a>-->
+                    <button class="btn btn-primary btn-l js-scroll-trigger" onclick="window.location.href = '<?=base_url('group/add_group')?>';">Add Group</button>
 
                 </div>
 

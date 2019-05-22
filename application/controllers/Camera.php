@@ -19,6 +19,13 @@ class Camera extends CI_Controller
             redirect('main');
     }
 
+//    public function test()
+//    {
+//        $this->load->view('header_2');
+//        $this->load->view('camera');
+//        $this->load->view('footer');
+//    }
+
     public function stream($cam_id, $cam_name)
     {
         $this->check_login();
@@ -26,7 +33,7 @@ class Camera extends CI_Controller
 
         $data['cam_id'] = $cam_id;
         $data['cam_name'] = $cam_name;
-        $this->load->view('header_profile');
+        $this->load->view('header_2');
         $this->load->view('stream', $data);
         $this->load->view('footer');
     }
@@ -45,7 +52,7 @@ class Camera extends CI_Controller
 //        $this->load->model('camera_model');
         $data['cameras'] = $this->camera_model->get_all_camera();
 //        $data['group_name'] = $this->group_model->get_group();
-        $this->load->view('header_profile');
+        $this->load->view('header_2');
         $this->load->view('camera', $data);
         $this->load->view('footer');
 //        print_r($data);
@@ -75,7 +82,7 @@ class Camera extends CI_Controller
             $data['camera'] = $this->camera_model->get_camera($cam_id);
 //            print_r($data) ;
 
-            $this->load->view('header_profile');
+            $this->load->view('header_2');
             $this->load->view('update_camera', $data);
             $this->load->view('footer');
         }

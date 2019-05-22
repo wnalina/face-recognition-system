@@ -18,6 +18,8 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
 
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700&display=swap" rel="stylesheet">
+
     <!-- Plugin CSS -->
     <link href="<?=base_url().'public/'?>vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
 
@@ -52,7 +54,7 @@
 
 
 <header class="masthead" style="padding-top: 0">
-    <div class="container h-100">
+    <div class="container h-100-header">
         <div class="row h-100 align-items-center justify-content-center text-center">
 
         <div class="login-wrap" style="color: #505357">

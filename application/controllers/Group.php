@@ -38,7 +38,7 @@ class Group extends CI_Controller
 //            print_r($value);
         }
 //        print_r($group)  ;
-        $this->load->view('header_profile');
+        $this->load->view('header_2');
         $this->load->view('show_group', $data);
         $this->load->view('footer');
     }
@@ -56,7 +56,7 @@ class Group extends CI_Controller
 //        $submit_data['group_id'] = $this->input->post('group_id', TRUE);
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('header_profile');
+            $this->load->view('header_2');
             $this->load->view('add_group', $submit_data);
             $this->load->view('footer');
         }

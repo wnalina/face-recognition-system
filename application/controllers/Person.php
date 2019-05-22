@@ -197,7 +197,7 @@ class Person extends CI_Controller
 //            array_push($data['cameras'], $data_vir);
 //        }
 
-        $this->load->view('header_profile');
+        $this->load->view('header_2');
         $this->load->view('show_foundperson', $data);
         $this->load->view('footer');
 
@@ -227,7 +227,7 @@ class Person extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
 
 //        $data['person'] = $this->person_model->
-            $this->load->view('header_profile');
+            $this->load->view('header_2');
             $this->load->view('show_trackperson', $data);
             $this->load->view('footer');
         }
@@ -266,7 +266,7 @@ class Person extends CI_Controller
             $person = $this->person_model->get_person($group_id, $person_id);
             $data['person_name'] = $person['person_name'];
             $data['person_img'] = $person['person_img'];
-            $this->load->view('header_profile');
+            $this->load->view('header_2');
             $this->load->view('show_trackperson', $data);
             $this->load->view('footer');
 
@@ -283,7 +283,7 @@ class Person extends CI_Controller
 
         $data['persons'] = $this->person_model->get_all_person($group_id);
         $data['group_id'] = $group_id;
-        $this->load->view('header_profile');
+        $this->load->view('header_2');
         $this->load->view('show_person', $data);
         $this->load->view('footer');
 //        print_r($data);
@@ -304,7 +304,7 @@ class Person extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $submit_data['group_id'] = $group_id;
 
-            $this->load->view('header_profile');
+            $this->load->view('header_2');
             $this->load->view('add_person', $submit_data);
             $this->load->view('footer');
         }
@@ -419,7 +419,7 @@ class Person extends CI_Controller
 
         if (empty($_FILES['person_img']['name']) )
         {
-            $this->load->view('header_profile');
+            $this->load->view('header_2');
             $this->load->view('add_face', $data);
             $this->load->view('footer');
         }
